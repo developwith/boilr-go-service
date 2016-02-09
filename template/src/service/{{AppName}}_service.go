@@ -8,24 +8,22 @@ import (
   "net/http"
   "html"
   "os"
-  "runtime"
-  "util"
 )
 
 // Handle args from command line if needed
 func Run(args []string) error {
 
   logger := log.New(os.Stderr, "{{AppName}}", log.Lshortfile)
-  setupConfig()
+  err := setupConfig()
   logger.Println("service:started")
   startApi()
+  return err
 }
 
-func setupConfig() {
+func setupConfig()  error {
   viper.AutomaticEnv()
 
   filename := os.Args[0]
-  logger.Println(path.Dir(filename))
   configpath := path.Join(path.Dir(filename), "../", "config")
   viper.SetConfigName("config") // name of config file (without extension)
   viper.SetConfigType("yaml")
@@ -34,9 +32,10 @@ func setupConfig() {
 
   err := viper.ReadInConfig() // Find and read the config file
   if err != nil {             // Handle errors reading the config file
-    logger.Println("Fatal error config file: %s \n", err)
+    log.Println("Fatal error config file: %s \n", err)
     panic(err)
   }
+  return err
 }
 
 func startApi() {
