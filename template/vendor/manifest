@@ -1,0 +1,11 @@
+{
+    "version": 0,
+    "dependencies": [
+        {
+            "importpath": "github.com/spf13/viper",
+            "repository": "https://github.com/spf13/viper",
+            "revision": "a212099cbe6fbe8d07476bfda8d2d39b6ff8f325",
+            "branch": "master"
+        }
+    ]
+}
