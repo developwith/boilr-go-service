@@ -4,18 +4,22 @@ import (
   "github.com/spf13/viper"
   "log"
   "fmt"
-
+  "path"
+  "net/http"
+  "html"
   "os"
   "runtime"
-  "util/round"
+  "util"
 )
 
 func main() {
 
   logger := log.New(os.Stderr, "{{AppName}}", log.Lshortfile)
   viper.AutomaticEnv()
-  _, filename, _, _ := runtime.Caller(1)
-  configpath := path.Join(path.Dir(filename), "config")
+
+  filename := os.Args[0]
+  logger.Println(path.Dir(filename))
+  configpath := path.Join(path.Dir(filename), "../", "config")
   viper.SetConfigName("config") // name of config file (without extension)
   viper.SetConfigType("yaml")
   viper.AddConfigPath("$HOME/.{{AppName}}") // call multiple times to add many search paths
@@ -28,7 +32,7 @@ func main() {
   }
   logger.Println("service:starting")
 
-  startMaxProcs()
+  setupMaxProcs()
   startApi()
 
 }
